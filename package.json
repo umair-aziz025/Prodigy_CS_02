@@ -6,7 +6,7 @@
   "scripts": {
     "start": "http-server -p 3000",
     "dev": "http-server -p 3000 -o",
-    "build": "echo 'Static site - no build required'",
+    "build": "mkdir -p public && cp *.html *.css *.js public/ || (if not exist public mkdir public && copy *.html public\\ && copy *.css public\\ && copy *.js public\\)",
     "deploy": "vercel --prod"
   },
   "keywords": [
