@@ -846,14 +846,20 @@ body {
     align-items: center;
     gap: var(--spacing-sm);
     font-weight: 500;
-    transform: translateX(100%);
+    transform: translateX(120%);
     transition: transform var(--transition-normal);
     z-index: 1000;
     max-width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .toast.show {
     transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .toast i {
