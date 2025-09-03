@@ -6,7 +6,7 @@
   "scripts": {
     "start": "http-server -p 3000",
     "dev": "http-server -p 3000 -o",
-    "build": "mkdir -p public && cp *.html *.css *.js public/ || (if not exist public mkdir public && copy *.html public\\ && copy *.css public\\ && copy *.js public\\)",
+    "build": "node build.js",
     "deploy": "vercel --prod"
   },
   "keywords": [

@@ -5,9 +5,8 @@
       "destination": "/index.html"
     }
   ],
-  "buildCommand": "mkdir -p public && cp *.html *.css *.js public/ || (if not exist public mkdir public && copy *.html public\\ && copy *.css public\\ && copy *.js public\\)",
+  "buildCommand": "node build.js",
   "outputDirectory": "public",
-  "installCommand": "npm install --production",
   "headers": [
     {
       "source": "/(.*)",
