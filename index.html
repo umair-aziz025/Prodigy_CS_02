@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelVault - Image Encryption Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Advanced image encryption tool using pixel manipulation techniques">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-image"></i>
+                    <h1>PixelVault</h1>
+                </div>
+                <p class="subtitle">Advanced Image Encryption & Pixel Security</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <div class="algorithm-selector">
+                    <label class="control-label">
+                        <i class="fas fa-cogs"></i>
+                        Encryption Algorithm:
+                    </label>
+                    <select id="algorithmSelect" class="algorithm-select">
+                        <option value="xor">XOR Cipher</option>
+                        <option value="shuffle">Pixel Shuffle</option>
+                        <option value="rgb-rotation">RGB Channel Rotation</option>
+                        <option value="mathematical">Mathematical Operations</option>
+                        <option value="bit-manipulation">Bit Manipulation</option>
+                    </select>
+                </div>
+
+                <div class="operation-selector">
+                    <label class="control-label">
+                        <i class="fas fa-exchange-alt"></i>
+                        Operation:
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="operation" value="encrypt" checked>
+                            <span class="radio-custom"></span>
+                            <i class="fas fa-lock"></i>
+                            Encrypt
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="operation" value="decrypt">
+                            <span class="radio-custom"></span>
+                            <i class="fas fa-unlock"></i>
+                            Decrypt
+                        </label>
+                    </div>
+                </div>
+
+                <div class="key-input-section">
+                    <label class="control-label">
+                        <i class="fas fa-key"></i>
+                        Encryption Key:
+                    </label>
+                    <div class="key-input-group">
+                        <input type="text" id="encryptionKey" placeholder="Enter encryption key..." class="key-input">
+                        <button id="generateKey" class="generate-key-btn" title="Generate Random Key">
+                            <i class="fas fa-random"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="strength-selector">
+                    <label class="control-label">
+                        <i class="fas fa-shield-alt"></i>
+                        Encryption Strength: <span class="strength-display">Medium</span>
+                    </label>
+                    <input type="range" id="strengthSlider" min="1" max="5" value="3" class="strength-slider">
+                    <div class="strength-labels">
+                        <span>Low</span>
+                        <span>Medium</span>
+                        <span>High</span>
+                        <span>Very High</span>
+                        <span>Maximum</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Image Processing Section -->
+            <section class="image-section">
+                <!-- Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Upload Image</h3>
+                        <p>Drag & drop an image here or click to browse</p>
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <button class="upload-btn" id="uploadBtn">
+                            <i class="fas fa-folder-open"></i>
+                            Choose Image
+                        </button>
+                        <div class="supported-formats">
+                            <small>Supported: JPEG, PNG, GIF, WebP, BMP</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Preview & Processing -->
+                <div class="image-preview-section" id="imagePreviewSection" style="display: none;">
+                    <div class="image-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-image"></i> Original Image</h3>
+                            <div class="image-info" id="originalInfo">
+                                <span class="info-item">Size: <span id="originalSize">-</span></span>
+                                <span class="info-item">Format: <span id="originalFormat">-</span></span>
+                            </div>
+                        </div>
+                        <div class="image-container">
+                            <canvas id="originalCanvas" class="image-canvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="processing-controls">
+                        <button id="processBtn" class="process-btn">
+                            <i class="fas fa-play"></i>
+                            <span id="processBtnText">Encrypt Image</span>
+                        </button>
+                        <div class="processing-status" id="processingStatus">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span class="status-text" id="statusText">Ready to process</span>
+                        </div>
+                    </div>
+
+                    <div class="image-panel" id="resultPanel" style="display: none;">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-key"></i> Processed Image</h3>
+                            <div class="result-actions">
+                                <button id="downloadBtn" class="download-btn" title="Download Image">
+                                    <i class="fas fa-download"></i>
+                                    Download
+                                </button>
+                                <button id="resetBtn" class="reset-btn" title="Reset">
+                                    <i class="fas fa-redo"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                        <div class="image-container">
+                            <canvas id="resultCanvas" class="image-canvas"></canvas>
+                        </div>
+                        <div class="processing-info" id="processingInfo">
+                            <span class="info-item">Processing Time: <span id="processingTime">-</span></span>
+                            <span class="info-item">Algorithm: <span id="usedAlgorithm">-</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Algorithm Info Section -->
+            <section class="algorithm-info-section">
+                <div class="algorithm-card active" data-algorithm="xor">
+                    <h3><i class="fas fa-times"></i> XOR Cipher</h3>
+                    <p>Applies XOR operation to each pixel using your encryption key. Fast and reversible with the same key.</p>
+                    <div class="algorithm-features">
+                        <span class="feature-tag">Fast</span>
+                        <span class="feature-tag">Reversible</span>
+                        <span class="feature-tag">Key-based</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card" data-algorithm="shuffle">
+                    <h3><i class="fas fa-random"></i> Pixel Shuffle</h3>
+                    <p>Rearranges pixel positions using a deterministic algorithm based on your key. Creates visual scrambling.</p>
+                    <div class="algorithm-features">
+                        <span class="feature-tag">Visual</span>
+                        <span class="feature-tag">Scrambling</span>
+                        <span class="feature-tag">Secure</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card" data-algorithm="rgb-rotation">
+                    <h3><i class="fas fa-palette"></i> RGB Rotation</h3>
+                    <p>Rotates color channels (Red → Green → Blue → Red) to create color-shifted encryption.</p>
+                    <div class="algorithm-features">
+                        <span class="feature-tag">Color-based</span>
+                        <span class="feature-tag">Simple</span>
+                        <span class="feature-tag">Effective</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card" data-algorithm="mathematical">
+                    <h3><i class="fas fa-calculator"></i> Mathematical Operations</h3>
+                    <p>Applies arithmetic operations to pixel values using your key as a mathematical parameter.</p>
+                    <div class="algorithm-features">
+                        <span class="feature-tag">Mathematical</span>
+                        <span class="feature-tag">Customizable</span>
+                        <span class="feature-tag">Strong</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-card" data-algorithm="bit-manipulation">
+                    <h3><i class="fas fa-microchip"></i> Bit Manipulation</h3>
+                    <p>Works at the bit level for maximum security. Slower processing but highest encryption strength.</p>
+                    <div class="algorithm-features">
+                        <span class="feature-tag">Bit-level</span>
+                        <span class="feature-tag">Secure</span>
+                        <span class="feature-tag">Advanced</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2><i class="fas fa-star"></i> Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Client-Side Processing</h4>
+                        <p>All encryption happens locally in your browser. Your images never leave your device.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Real-Time Processing</h4>
+                        <p>See encryption results instantly with optimized algorithms and web workers.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Responsive Design</h4>
+                        <p>Works perfectly on desktop, tablet, and mobile devices with touch support.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-file-image"></i>
+                        <h4>Multiple Formats</h4>
+                        <p>Support for JPEG, PNG, GIF, WebP, and BMP image formats.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cogs"></i>
+                        <h4>Advanced Algorithms</h4>
+                        <p>Choose from multiple encryption methods with customizable parameters.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-download"></i>
+                        <h4>Easy Download</h4>
+                        <p>Download your encrypted or decrypted images in high quality.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Made with ❤️ by Umair</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/umairaziz001/" target="_blank" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/umair-aziz025/" target="_blank" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://umairaziz-cyber-portfolio.vercel.app/" target="_blank" title="Portfolio">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Operation completed successfully!</span>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Processing image...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
