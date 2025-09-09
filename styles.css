@@ -957,12 +957,12 @@ body {
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 var(--spacing-sm);
+        padding: 0 var(--spacing-md);
     }
     
     .header {
-        margin: 0 calc(-1 * var(--spacing-sm));
-        padding: var(--spacing-xl) 0;
+        margin: 0 calc(-1 * var(--spacing-md));
+        padding: var(--spacing-xl) var(--spacing-md);
     }
     
     .logo h1 {
@@ -981,6 +981,12 @@ body {
         grid-template-columns: 1fr;
         padding: var(--spacing-lg);
         gap: var(--spacing-lg);
+        margin: 0;
+    }
+    
+    .upload-area {
+        margin: 0;
+        padding: var(--spacing-xl);
     }
     
     .radio-group {
@@ -1051,7 +1057,12 @@ body {
 
 @media (max-width: 480px) {
     .container {
-        padding: 0 var(--spacing-xs);
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .header {
+        margin: 0 calc(-1 * var(--spacing-sm));
+        padding: var(--spacing-lg) var(--spacing-sm);
     }
     
     .logo {
@@ -1122,7 +1133,7 @@ body {
     
     .upload-area {
         padding: var(--spacing-xl);
-        margin: 0 calc(-1 * var(--spacing-xs));
+        margin: 0;
     }
     
     .upload-icon {
@@ -1148,12 +1159,12 @@ body {
 /* Extra small devices (320px and below) */
 @media (max-width: 360px) {
     .container {
-        padding: 0 var(--spacing-xs);
+        padding: 0 var(--spacing-sm);
     }
     
     .header {
-        margin: 0 calc(-1 * var(--spacing-xs));
-        padding: var(--spacing-lg) var(--spacing-xs);
+        margin: 0 calc(-1 * var(--spacing-sm));
+        padding: var(--spacing-lg) var(--spacing-sm);
     }
     
     .logo h1 {
@@ -1169,9 +1180,10 @@ body {
     }
     
     .control-panel {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md);
         gap: var(--spacing-sm);
         border-radius: var(--radius-md);
+        margin: 0;
     }
     
     .control-label {
